@@ -85,6 +85,10 @@ function Luna(planeta, radio, dist, vel, col, angle, texture = undefined) {
   pivote.add(luna);
 }
 
+Luego también añadí un fondo de la galaxia:
+  const spaceTexture = new THREE.TextureLoader().load("src/stars.jpg");
+  scene.background = spaceTexture;
+
 
 Con este código añadí mi “firma” en la parte inferior derecha:
 
