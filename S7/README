@@ -41,7 +41,7 @@ sunLight.position.set(0, 0, 0);
 scene.add(sunLight);
 come si può vedere dall'immagine
 
-![luce sui pianeti](imgs/logo.png)
+![luce sui pianeti](img/luce.png)
 
 io aggiunto un piccolo menu GUI per cambiare visuale che quando si attiva l’opzione “Vista soggettiva”, 
 la camera si sposta vicino al Sole per una visione più immersiva:
