@@ -39,6 +39,9 @@ il Sole funziona come sorgente luminosa che illumina i pianeta:
 const sunLight = new THREE.PointLight(0xffffff, 50, 100);
 sunLight.position.set(0, 0, 0);
 scene.add(sunLight);
+come si può vedere dall'immagine
+
+![luce sui pianeti](imgs/logo.png)
 
 io aggiunto un piccolo menu GUI per cambiare visuale che quando si attiva l’opzione “Vista soggettiva”, 
 la camera si sposta vicino al Sole per una visione più immersiva:
