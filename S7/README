@@ -1,10 +1,13 @@
-Buongiorno prof, sono Mattia Rizza e questo è il mio esercizio per la S7 di IG.
-L’obiettivo era creare un piccolo sistema planetario in Three.js, con pianeti che ruotano attorno al Sole, 
-una luna e la possibilità di cambiare visuale tramite un’interfaccia GUI. In iù ho aggiunto la mia "firma" nel esercizio.
+Buenos días profesor, soy Mattia Rizza y este es mi ejercicio para la S7 de IG.
 
-QUESTO é IL LINK PER IL CODICE: https://codesandbox.io/p/sandbox/ig-s7-3njfrg?file=%2Fsrc%2Fsis_plan.js%3A155%2C1-171%2C2
+El objetivo era crear un pequeño sistema planetario en Three.js, con planetas que giran alrededor del Sol,
+una luna y la posibilidad de cambiar la vista mediante una interfaz GUI.
+Además, añadí mi “firma” dentro del ejercicio.
 
-Nel file vengono caricate le texture dei pianeti e del Sole:
+ESTE ES EL LINK AL CÓDIGO:
+https://codesandbox.io/p/sandbox/ig-s7-3njfrg?file=%2Fsrc%2Fsis_plan.js%3A155%2C1-171%2C2
+
+En el archivo se cargan las texturas de los planetas y del Sol:
 
 const txHea = new THREE.TextureLoader().load("src/earthmap1k.jpg");
 const txSun = new THREE.TextureLoader().load("src/sun.jpg");
@@ -14,10 +17,10 @@ const txMar = new THREE.TextureLoader().load("src/mars.jpg");
 const txSat = new THREE.TextureLoader().load("src/saturn.jpg");
 const txUra = new THREE.TextureLoader().load("src/uranus.jpg");
 
-le immagini le ho trovate nel sito: https://www.solarsystemscope.com/textures/ dove ho fatto il download delle immagini e poi le ho caricate 
-su codesanbox nella cartella src 
+Las imágenes las encontré en la web: https://www.solarsystemscope.com/textures/
+Descargué las texturas y luego las subí a la carpeta src de CodeSandbox.
 
-Ogni pianeta viene creato con la funzione Planeta():
+Cada planeta se crea con la función Planeta():
 
 function Planeta(radio, dist, vel, f1, f2, texture) {
   let geom = new THREE.SphereGeometry(radio, 10, 10);
@@ -28,30 +31,26 @@ function Planeta(radio, dist, vel, f1, f2, texture) {
   scene.add(planeta);
 }
 
-Ogni pianeta ha:
- - un raggio (radio)
- - una distanza dal Sole (dist)
- - una velocità orbitale (vel)
- - fattori deformazione dell'orbita ellittica (f1 e f2)
- - una texture
+Cada planeta tiene:
+ - un radio (radio)
+ - una distancia al Sol (dist)
+ - una velocidad orbital (vel)
+ - factores de deformación de la órbita elíptica (f1, f2)
+ - una textura
 
-
-il Sole funziona come sorgente luminosa che illumina i pianeta:
+El Sol funciona como fuente de luz que ilumina los planetas:
 
 const sunLight = new THREE.PointLight(0xffffff, 50, 100);
 sunLight.position.set(0, 0, 0);
 scene.add(sunLight);
-come si può vedere dall'immagine
-
-![luce sui pianeti](img/luce.png)
 
 
-io aggiunto un piccolo menu GUI per cambiare visuale che quando si attiva l’opzione “Vista soggettiva”, 
-la camera si sposta vicino al Sole per una visione più immersiva:
+También añadí un pequeño menú GUI para cambiar la vista.
+Cuando se activa la opción “Vista subjetiva”, la cámara se acerca al Sol para ofrecer una visión más inmersiva:
 
 const Cam_Info = new GUI().addFolder("Camera");
 Cam_Info.add(Cam_Params, "cercaSole")
-  .name("Vista soggettiva")
+  .name("Vista subjetiva")
   .onChange((value) => {
     if (value) {
       camera.position.set(-3, -5, 3);
@@ -62,13 +61,16 @@ Cam_Info.add(Cam_Params, "cercaSole")
     }
   });
 
-Nel ciclo animationLoop() i pianeti ruotano attorno al Sole e su sé stessi:
+
+En el animationLoop() los planetas orbitan alrededor del Sol y rotan sobre sí mismos:
 
 object.position.x = Math.cos(timestamp * object.userData.speed) * object.userData.dist;
 object.position.y = Math.sin(timestamp * object.userData.speed) * object.userData.dist;
-object.rotation.y -= 0.013; 
+object.rotation.y -= 0.013;
 
-Ho creato pure la luna che gira attorno alla terra:
+
+También creé la Luna que gira en torno a la Tierra:
+
 function Luna(planeta, radio, dist, vel, col, angle, texture = undefined) {
   var pivote = new THREE.Object3D();
   pivote.rotation.x = angle;
@@ -78,33 +80,28 @@ function Luna(planeta, radio, dist, vel, col, angle, texture = undefined) {
   var luna = new THREE.Mesh(geom, mat);
   luna.userData.dist = dist;
   luna.userData.speed = vel;
-
-  if (texture != undefined) {
-    mat.map = texture;
-  }
-
+  if (texture != undefined) mat.map = texture;
   Lunas.push(luna);
   pivote.add(luna);
 }
 
 
-Con questo codice ho messo la mia "firma" sul progetto in basso a destra 
-  info = document.createElement("div");
-  info.style.position = "absolute";
-  info.style.top = "600px";
-  info.style.width = "90%";
-  info.style.textAlign = "right";
-  info.style.color = "#fff";
-  info.style.fontWeight = "bold";
-  info.style.backgroundColor = "transparent";
-  info.style.zIndex = "1";
-  info.style.fontFamily = "Monospace";
-  info.innerHTML = "Mattia Rizza";
-  document.body.appendChild(info);
+Con este código añadí mi “firma” en la parte inferior derecha:
+
+info = document.createElement("div");
+info.style.position = "absolute";
+info.style.top = "600px";
+info.style.width = "90%";
+info.style.textAlign = "right";
+info.style.color = "#fff";
+info.style.fontWeight = "bold";
+info.style.backgroundColor = "transparent";
+info.style.zIndex = "1";
+info.style.fontFamily = "Monospace";
+info.innerHTML = "Mattia Rizza";
+document.body.appendChild(info);
 
 
-Alla fine il progetto è stato un mix dei vari esercizi visti in classe, è stato molto interessante riuscire a dare una texture alle sfere 
-monocolore create, anche dare la luce ad un elemento, che in questo caso è il sole è stato molto sorprendente riuscire a farlo.
-
-
-
+En conclusión, el proyecto fue una mezcla de varios ejercicios vistos en clase.
+Fue muy interesante conseguir aplicar texturas a las esferas monocromas y también lograr iluminar un objeto, en este caso el Sol, 
+fue un logro muy llamativo.
