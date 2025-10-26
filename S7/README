@@ -1,1 +1,64 @@
+Buongiorno prof, sono Mattia Rizza e questo è il mio esercizio per la S7 di IG.
+L’obiettivo era creare un piccolo sistema planetario in **Three.js**, con pianeti che ruotano attorno al Sole, 
+una luna e la possibilità di cambiare visuale tramite un’interfaccia GUI. In iù ho aggiunto la mia "firma" nel esercizio.
+
+Nel file vengono caricate le texture dei pianeti e del Sole:
+
+const txHea = new THREE.TextureLoader().load("src/earthmap1k.jpg");
+const txSun = new THREE.TextureLoader().load("src/sun.jpg");
+const txMoon = new THREE.TextureLoader().load("src/moon.jpg");
+const txJup = new THREE.TextureLoader().load("src/jupiter.jpg");
+const txMar = new THREE.TextureLoader().load("src/mars.jpg");
+const txSat = new THREE.TextureLoader().load("src/saturn.jpg");
+const txUra = new THREE.TextureLoader().load("src/uranus.jpg");
+
+le immagini le ho trovate nel sito: https://www.solarsystemscope.com/textures/ dove ho fatto il download delle immagini e poi le ho caricate 
+su codesanbox nella cartella src 
+
+Ogni pianeta viene creato con la funzione Planeta():
+
+function Planeta(radio, dist, vel, f1, f2, texture) {
+  let geom = new THREE.SphereGeometry(radio, 10, 10);
+  let mat = new THREE.MeshPhongMaterial({ map: texture });
+  let planeta = new THREE.Mesh(geom, mat);
+  planeta.userData.dist = dist;
+  planeta.userData.speed = vel;
+  scene.add(planeta);
+}
+
+Ogni pianeta ha:
+ - un raggio (radio)
+ - una distanza dal Sole (dist)
+ - una velocità orbitale (vel)
+ - fattori deformazione dell'orbita ellittica (f1 e f2)
+ - una texture
+
+
+il Sole funziona come sorgente luminosa che illumina i pianeta:
+
+const sunLight = new THREE.PointLight(0xffffff, 50, 100);
+sunLight.position.set(0, 0, 0);
+scene.add(sunLight);
+
+io aggiunto un piccolo menu GUI per cambiare visuale che quando si attiva l’opzione “Vista soggettiva”, 
+la camera si sposta vicino al Sole per una visione più immersiva:
+
+const Cam_Info = new GUI().addFolder("Camera");
+Cam_Info.add(Cam_Params, "cercaSole")
+  .name("Vista soggettiva")
+  .onChange((value) => {
+    if (value) {
+      camera.position.set(-3, -5, 3);
+      camera.lookAt(10, 30, -25);
+    } else {
+      camera.position.set(0, 0, 10);
+      camera.lookAt(0, 0, 0);
+    }
+  });
+
+Nel ciclo animationLoop() i pianeti ruotano attorno al Sole e su sé stessi:
+
+object.position.x = Math.cos(timestamp * object.userData.speed) * object.userData.dist;
+object.position.y = Math.sin(timestamp * object.userData.speed) * object.userData.dist;
+object.rotation.y -= 0.013; 
 
