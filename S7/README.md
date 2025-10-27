@@ -1,14 +1,17 @@
-Buenos días profesor, soy Mattia Rizza y este es mi ejercicio para la S7 de IG.
+## Buenos días profesor, soy Mattia Rizza y este es mi ejercicio para la S7 de IG.
 
-El objetivo era crear un pequeño sistema planetario en Three.js, con planetas que giran alrededor del Sol,
+--- 
+
+El **objetivo**  era crear un pequeño sistema planetario en Three.js, con planetas que giran alrededor del Sol,
 una luna y la posibilidad de cambiar la vista mediante una interfaz GUI.
 Además, añadí mi “firma” dentro del ejercicio.
 
 ESTE ES EL LINK AL CÓDIGO:
-https://codesandbox.io/p/sandbox/ig-s7-3njfrg?file=%2Fsrc%2Fsis_plan.js%3A46%2C1-47%2C35
+[codesandbox_S7](https://codesandbox.io/p/sandbox/ig-s7-3njfrg?file=%2Fsrc%2Fsis_plan.js%3A46%2C1-47%2C35)
 
-En el archivo se cargan las texturas de los planetas y del Sol:
+En el archivo se cargan las texturas de los planetas y del **Sol**:
 
+```javascript
 const txHea = new THREE.TextureLoader().load("src/earthmap1k.jpg");
 const txSun = new THREE.TextureLoader().load("src/sun.jpg");
 const txMoon = new THREE.TextureLoader().load("src/moon.jpg");
@@ -16,12 +19,14 @@ const txJup = new THREE.TextureLoader().load("src/jupiter.jpg");
 const txMar = new THREE.TextureLoader().load("src/mars.jpg");
 const txSat = new THREE.TextureLoader().load("src/saturn.jpg");
 const txUra = new THREE.TextureLoader().load("src/uranus.jpg");
+```
 
 Las imágenes las encontré en la web: https://www.solarsystemscope.com/textures/
 Descargué las texturas y luego las subí a la carpeta src de CodeSandbox.
 
-Cada planeta se crea con la función Planeta():
+Cada planeta se crea con la función **Planeta()**:
 
+```javascript
 function Planeta(radio, dist, vel, f1, f2, texture) {
   let geom = new THREE.SphereGeometry(radio, 10, 10);
   let mat = new THREE.MeshPhongMaterial({ map: texture });
@@ -30,24 +35,27 @@ function Planeta(radio, dist, vel, f1, f2, texture) {
   planeta.userData.speed = vel;
   scene.add(planeta);
 }
+```
 
-Cada planeta tiene:
+Cada **planeta** tiene:
  - un radio (radio)
  - una distancia al Sol (dist)
  - una velocidad orbital (vel)
  - factores de deformación de la órbita elíptica (f1, f2)
  - una textura
 
-El Sol funciona como fuente de luz que ilumina los planetas:
+El **Sol** funciona como fuente de luz que ilumina los planetas:
 
+```javascript
 const sunLight = new THREE.PointLight(0xffffff, 50, 100);
 sunLight.position.set(0, 0, 0);
 scene.add(sunLight);
-
+```
 
 También añadí un pequeño menú GUI para cambiar la vista.
 Cuando se activa la opción “Vista subjetiva”, la cámara se acerca al Sol para ofrecer una visión más inmersiva:
 
+```javascript
 const Cam_Info = new GUI().addFolder("Camera");
 Cam_Info.add(Cam_Params, "cercaSole")
   .name("Vista subjetiva")
@@ -60,17 +68,20 @@ Cam_Info.add(Cam_Params, "cercaSole")
       camera.lookAt(0, 0, 0);
     }
   });
+```
 
 
 En el animationLoop() los planetas orbitan alrededor del Sol y rotan sobre sí mismos:
 
+```javascript
 object.position.x = Math.cos(timestamp * object.userData.speed) * object.userData.dist;
 object.position.y = Math.sin(timestamp * object.userData.speed) * object.userData.dist;
 object.rotation.y -= 0.013;
+```
 
+También creé la Luna que gira en torno a la **Tierra**:
 
-También creé la Luna que gira en torno a la Tierra:
-
+```javascript
 function Luna(planeta, radio, dist, vel, col, angle, texture = undefined) {
   var pivote = new THREE.Object3D();
   pivote.rotation.x = angle;
@@ -84,14 +95,17 @@ function Luna(planeta, radio, dist, vel, col, angle, texture = undefined) {
   Lunas.push(luna);
   pivote.add(luna);
 }
+```
 
-Luego también añadí un fondo de la galaxia:
+Luego también añadí un fondo de la **galaxia**:
+```javascript
   const spaceTexture = new THREE.TextureLoader().load("src/stars.jpg");
   scene.background = spaceTexture;
+```
 
+Con este código añadí mi **firma** en la parte inferior derecha:
 
-Con este código añadí mi “firma” en la parte inferior derecha:
-
+```javascript
 info = document.createElement("div");
 info.style.position = "absolute";
 info.style.top = "600px";
@@ -104,8 +118,11 @@ info.style.zIndex = "1";
 info.style.fontFamily = "Monospace";
 info.innerHTML = "Mattia Rizza";
 document.body.appendChild(info);
-
+```
 
 En conclusión, el proyecto fue una mezcla de varios ejercicios vistos en clase.
 Fue muy interesante conseguir aplicar texturas a las esferas monocromas y también lograr iluminar un objeto, en este caso el Sol, 
 fue un logro muy llamativo.
+
+---
+Después de 2 meses descubrí cómo escribir un buen README, perdón por la demora en aprender.
