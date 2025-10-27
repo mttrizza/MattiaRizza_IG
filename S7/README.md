@@ -51,6 +51,7 @@ const sunLight = new THREE.PointLight(0xffffff, 50, 100);
 sunLight.position.set(0, 0, 0);
 scene.add(sunLight);
 ```
+<img src="image/luz.png" width="300" />
 
 También añadí un pequeño menú GUI para cambiar la vista.
 Cuando se activa la opción “Vista subjetiva”, la cámara se acerca al Sol para ofrecer una visión más inmersiva:
